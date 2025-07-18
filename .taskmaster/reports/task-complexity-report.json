@@ -1,0 +1,93 @@
+{
+	"meta": {
+		"generatedAt": "2025-07-17T07:54:53.561Z",
+		"tasksAnalyzed": 10,
+		"totalTasks": 10,
+		"analysisCount": 10,
+		"thresholdScore": 5,
+		"projectName": "Taskmaster",
+		"usedResearch": false
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "Foundation: CLI Structure and File System Management",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Break down the task 'Foundation: CLI Structure and File System Management' into subtasks. The subtasks should cover Node.js project initialization with dependencies like Commander.js, creating a cross-platform `FileSystemManager` to handle global `~/.rex` and local `./.rex` directories, implementing the `rex-cli init` command, and writing corresponding unit and integration tests.",
+			"reasoning": "Foundational work is critical and often more complex than it appears. This task involves setting up the entire project structure, a CLI parsing library, and a core, cross-platform file system abstraction layer. This has several distinct parts: project setup, CLI wiring, the FS module itself, the `init` command, and testing."
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "Implement Core Prompt Management (import, list)",
+			"complexityScore": 4,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Expand the task 'Implement Core Prompt Management (import, list)' into subtasks. The breakdown should include adding the `prompt` command group, implementing the `import <path>` subcommand to copy files to the library, implementing the `list` subcommand to display library contents, and creating tests for both commands, including edge cases like file conflicts.",
+			"reasoning": "This task introduces two related but distinct commands (`import`, `list`). The complexity is moderate because it involves argument parsing, file system operations (copying, reading directories), and user-facing output formatting, along with testing for edge cases."
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "Develop Initial Utility and Compilation Logic",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break down the task 'Develop Initial Utility and Compilation Logic' into actionable subtasks. These should cover defining the 'Utility' interface, creating a simple 'pass-through' utility, building the 'Utility Runner' component to execute utilities, implementing the `rex-cli utility compile` command, and writing tests to validate the entire compilation pipeline.",
+			"reasoning": "This task is highly complex as it introduces a core architectural concept: the pluggable 'Utility' system. It requires defining an interface for utilities, creating a 'Utility Runner' to discover and execute them, implementing the `compile` command, and managing the compiled output directory structure. This is a multi-component feature central to the application's purpose."
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "Implement Core Deployment Workflow (`deploy` command)",
+			"complexityScore": 5,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Generate subtasks for 'Implement Core Deployment Workflow (`deploy` command)'. The subtasks should detail adding the `deploy <prompt-name>` command, parsing its arguments and flags (`--utility`, `--output`), locating the correct compiled prompt, copying it to the project directory, and creating an end-to-end test for the full `import -> compile -> deploy` workflow.",
+			"reasoning": "This task completes the core user workflow by connecting compilation with project usage. Its complexity is moderate, involving a new command with multiple options, path resolution logic for both the source (compiled library) and destination (project directory), and file copying. It's an important integration point."
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "Expand Prompt Management Commands",
+			"complexityScore": 5,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "Break down the task 'Expand Prompt Management Commands' into subtasks. Create separate implementation and testing subtasks for each of the three new subcommands: `prompt remove` (including the `--force` safety flag), `prompt rename`, and `prompt export`.",
+			"reasoning": "This task involves implementing three distinct file management commands (`remove`, `rename`, `export`). The complexity is moderate due to the number of commands, the need for careful error handling (e.g., file not found, name collision), and the implementation of a safety feature (`--force` flag)."
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "Implement Multi-Level Configuration System",
+			"complexityScore": 7,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Expand the task 'Implement Multi-Level Configuration System' into subtasks. The plan should cover designing the config schema, creating a `ConfigurationManager` module, and implementing the logic to load, parse, and merge settings from global, project, and command-line sources with the correct precedence. Include a subtask for extensive unit testing of the merging logic.",
+			"reasoning": "This task is highly complex because it requires building a core service, the 'Configuration Manager'. The complexity lies in designing a robust system that reads from three different sources (global file, project file, CLI flags) and correctly merges them according to a strict hierarchy of precedence. This requires careful logic and extensive testing."
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "Implement Smart Detection and Caching",
+			"complexityScore": 9,
+			"recommendedSubtasks": 8,
+			"expansionPrompt": "Break down the task 'Implement Smart Detection and Caching' into subtasks. Address the two main features separately. For caching, include subtasks for file hashing, managing a `hashes.json` file, and integrating it into the `compile` command. For smart detection, include subtasks for scanning project files, inferring utilities, and integrating this logic into the `deploy` command. Also include caching for detection results.",
+			"reasoning": "This is a highly complex task with two distinct, advanced features. 'Caching' requires implementing file hashing and managing a cache state file for incremental builds. 'Smart detection' requires implementing file system scanning and pattern recognition. Both systems need to work together and significantly alter core command behavior."
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "Enhance Developer Experience (watch, preview, dry-run)",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "Expand the task 'Enhance Developer Experience' into subtasks. Create a subtask for implementing the `--watch` mode on the `compile` command using a file watcher. Create separate subtasks for adding the `--dry-run` and `--preview` flags to the `deploy` command. Ensure testing strategies are defined for each new flag.",
+			"reasoning": "The complexity is medium-high, primarily due to the `--watch` feature, which introduces asynchronous file system monitoring and process re-triggering. The `--preview` and `--dry-run` flags are less complex but still require careful modification of the `deploy` command's control flow."
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "Develop Official Utilities for VS Code and Cursor",
+			"complexityScore": 7,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Break down the task 'Develop Official Utilities for VS Code and Cursor'. Create parallel sets of subtasks for each tool. For both VS Code and Cursor, include subtasks for: researching the target prompt format, implementing the utility logic to perform the transformation, and creating an end-to-end test that validates the entire `import -> compile -> deploy` flow with that specific utility.",
+			"reasoning": "This task's complexity comes from the need to research and understand two external, third-party formats. It then requires implementing two distinct transformation logics. This work will also serve to validate and potentially force refinements to the abstract Utility architecture, adding a layer of architectural risk."
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "Implement Advanced Utility Management, Testing, and Logging",
+			"complexityScore": 8,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "Expand the task 'Implement Advanced Utility Management, Testing, and Logging' into three main groups of subtasks. The first group should cover the `rex-cli utility enable|disable|set` commands. The second group should cover implementing a configurable logging system with a `--log-level` flag. The third group should focus on increasing test coverage across the entire application, including setting up coverage reporting.",
+			"reasoning": "This is a high-complexity task as it bundles three separate, substantial features aimed at production-readiness. Implementing new utility management commands requires deep integration with the configuration system. Adding a robust, leveled logging system requires refactoring throughout the codebase. And achieving high test coverage is a significant effort."
+		}
+	]
+}
