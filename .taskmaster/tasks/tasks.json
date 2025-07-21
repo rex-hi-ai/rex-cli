@@ -1,0 +1,201 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Foundation: CLI Structure and File System Management",
+        "description": "Build the foundational CLI architecture for `rex-cli`. This includes setting up a modular, extensible, and cross-platform structure using Node.js and Commander.js, implementing a File System Manager for `~/.rex` and `./.rex` directories, and creating the `rex-cli init` command.",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "details": "- **CLI Architecture:** Build a modular and extensible CLI using Node.js and Commander.js. Ensure a clear command structure and comprehensive `--help` documentation.\n- **File System Manager:** Responsible for creating, validating, and managing permissions for the global `~/.rex` and project-local `./.rex` directories. Use `fs-extra` for robust cross-platform support (macOS, Linux, Windows) and provide clear error feedback.\n- **`init` Command:** The `rex-cli init` command must initialize a project by creating `./.rex/config.json` and provide a clear confirmation message.\n- **Extensibility:** The architecture must be designed with extension points for future components like the Prompt Manager, Utility Runner, and Configuration Manager.\n- **Testing:** Adhere to the project's technical architecture and ensure comprehensive test coverage for stability and maintainability.",
+        "testStrategy": "Implement comprehensive unit and integration tests to ensure stability and maintainability. **Unit Tests:** Cover the File System Manager, focusing on directory creation, permission handling, and error scenarios across platforms. **Integration Tests:** Verify the end-to-end flow of the `rex-cli init` command, ensuring it correctly creates the project configuration and provides user feedback.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Initialize CLI Project Structure",
+            "description": "Set up the Node.js project and integrate Commander.js. Establish the main entry point and a clear command structure.",
+            "dependencies": [],
+            "details": "Create the project directory, initialize package.json, install Commander.js, and set up the CLI entry file (e.g., index.js or cli.js). Ensure the CLI can parse commands and display --help.",
+            "status": "done",
+            "testStrategy": "Verify the CLI runs, displays help, and recognizes basic commands on all supported platforms."
+          },
+          {
+            "id": 2,
+            "title": "Implement File System Manager",
+            "description": "Design and implement a module to manage ~/.rex and ./.rex directories and files, including creation, validation, and permission handling.",
+            "dependencies": [
+              1
+            ],
+            "details": "Use fs-extra for robust cross-platform support. The manager should create directories if missing, check permissions, and handle errors gracefully. All file operations must provide clear user feedback.\n<info added on 2025-07-17T08:27:57.717Z>\nBased on the research, the implementation should adhere to the following principles:\n\n- **Path Management:** Utilize Node.js's `path` module (e.g., `path.join`, `path.resolve`) for cross-platform path construction and `os.homedir()` to reliably locate the user's home directory for `~/.rex`.\n- **Idempotency:** Leverage `fs-extra`'s `ensureDir` to prevent errors when re-initializing directories that already exist.\n- **Atomic Writes:** For critical file updates (e.g., configuration, metadata), write to a temporary file first and then rename it to the final destination. This prevents file corruption if the process is interrupted.\n- **Error Handling:** Implement custom, specific error classes (e.g., `PermissionError`) that include the problematic path and a clear message. The `FileSystemManager` should throw these errors, allowing the CLI command layer to catch them and display user-friendly feedback.\n- **Testing Strategy:**\n  - **Unit Tests:** Use Jest and mock `fs-extra` to test the `FileSystemManager`'s logic for various success and failure scenarios (e.g., permissions, existing files).\n  - **Integration Tests:** Use a library like `tempy` to create temporary directories to test the actual CLI commands' effects on the file system.\n</info added on 2025-07-17T08:27:57.717Z>",
+            "status": "done",
+            "testStrategy": "Unit test directory creation, permission errors, and error handling on macOS, Linux, and Windows."
+          },
+          {
+            "id": 3,
+            "title": "Implement rex-cli init Command",
+            "description": "Develop the init command to initialize a project by creating ./.rex/config.json with default content.",
+            "dependencies": [
+              2
+            ],
+            "details": "The command should check for existing ./.rex/config.json, prompt or overwrite as needed, and provide a clear confirmation message. Handle errors such as permission denied or invalid path.",
+            "status": "done",
+            "testStrategy": "Integration test: run init in a new directory, verify ./.rex/config.json is created, and test error scenarios."
+          },
+          {
+            "id": 4,
+            "title": "Design Extensible Architecture",
+            "description": "Refactor and document the codebase to allow easy integration of future components (Prompt Manager, Utility Runner, Configuration Manager).",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "Use modular design patterns and clear interfaces. Add comments and documentation to highlight extension points.",
+            "status": "done",
+            "testStrategy": "Code review and static analysis to ensure modularity and extensibility."
+          },
+          {
+            "id": 5,
+            "title": "Testing and Documentation",
+            "description": "Write unit and integration tests for all modules. Ensure CLI --help and user documentation are clear and complete.",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "Use a test framework (e.g., Jest or Mocha) to cover all file system and CLI logic. Update README and in-CLI help text.",
+            "status": "done",
+            "testStrategy": "Run tests on all supported platforms. Review documentation for completeness and clarity."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Implement Core Prompt Management (import, list)",
+        "description": "Develop the `rex-cli prompt import <path>` command to copy a prompt file into the global library at `~/.rex/prompts/`. Also, implement the `rex-cli prompt list` command to display the prompts currently in the library.",
+        "details": "The `import` command is the primary way to add data to the system. The `list` command provides essential visibility for the user. This task focuses on the 'Prompt Manager' component and is the first step in the 'Librarian' user flow.",
+        "testStrategy": "Test `import` with various file paths and names. Test `list` to ensure it accurately reflects the contents of the `~/.rex/prompts/` directory. Test edge cases like importing a file that already exists.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Develop Initial Utility and Compilation Logic",
+        "description": "Create the 'Utility Runner' component and a simple 'pass-through' Utility. Implement the `rex-cli utility compile` command to run prompts from the library through the Utility and save the output to `~/.rex/compiled/`.",
+        "details": "This task proves the core concept of transforming prompts. The pass-through utility will simply copy the prompt content, serving as a baseline for future, more complex utilities. The focus is on the mechanism, not the transformation itself.",
+        "testStrategy": "Unit test the Utility Runner to ensure it discovers and executes the pass-through utility. Integration test the `compile` command to verify that after running, the correct files appear in the `~/.rex/compiled/passthrough/` directory.",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Implement Core Deployment Workflow (`deploy` command)",
+        "description": "Create the `rex-cli deploy <prompt-name>` command. This command should copy a specified compiled prompt from `~/.rex/compiled/` into the current project's directory. This completes the MVP user flow.",
+        "details": "This is the final step of the core user journey, making the managed prompts usable in a project. The initial version should support specifying the utility and output path via flags (`--utility`, `--output`).",
+        "testStrategy": "Integration test the `deploy` command. Run `import`, then `compile`, then `deploy` and verify the final prompt file is in the correct location in the project directory with the correct content.",
+        "priority": "high",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Expand Prompt Management Commands",
+        "description": "Enhance the 'Prompt Manager' by implementing the `remove`, `rename`, and `export` subcommands for prompts. Ensure destructive operations like `remove` require a `--force` flag for safety.",
+        "details": "These commands provide a complete lifecycle management experience for prompts in the global library, improving usability beyond the MVP. `export` allows users to get prompts out of the library, while `rename` and `remove` are essential maintenance tools.",
+        "testStrategy": "Write individual tests for `rename`, `remove` (with and without `--force`), and `export`. Verify that the file system state in `~/.rex/prompts/` is correct after each operation.",
+        "priority": "medium",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Implement Multi-Level Configuration System",
+        "description": "Build the 'Configuration Manager' to load and merge settings from global (`~/.rex/config.json`), project (`./.rex/config.json`), and command-line flags, following the specified hierarchy.",
+        "details": "This system provides flexibility for users. The hierarchy is: CLI flags > project settings > global settings. This manager will be used by other commands (like `deploy`) to determine behavior.",
+        "testStrategy": "Unit test the Configuration Manager with various combinations of global, project, and CLI configs to ensure the correct settings are prioritized and merged.",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Implement Smart Detection and Caching",
+        "description": "Implement the smart detection feature to automatically identify relevant Utilities by scanning project files (e.g., `.vscode/`). Implement the caching system (`hashes.json`, `detection.json`) to improve performance by avoiding redundant compilations and scans.",
+        "details": "This is a major V2 enhancement. The 'Cache Manager' will store file hashes to enable incremental builds. Smart detection will make the `deploy` command work 'out of the box' in many cases, improving the user experience significantly.",
+        "testStrategy": "Test smart detection in mock project structures containing `.vscode` or `.cursor` directories. Test caching by running `compile` twice on the same files and verifying the second run is faster and skips compilation.",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Enhance Developer Experience (watch, preview, dry-run)",
+        "description": "Add flags to improve the development workflow and safety. Implement `--watch` for the `compile` command for real-time feedback. Implement `--preview` and `--dry-run` for the `deploy` command to allow users to see changes before they are written to disk.",
+        "details": "These features are part of the V2 'Developer Experience' goals. `--watch` is for prompt authors, while `--dry-run` and `--preview` are for prompt consumers, making the tool safer and more interactive.",
+        "testStrategy": "Test `--dry-run` to ensure no files are written. Test `--preview` to verify it outputs the expected changes. Test `--watch` by modifying a source prompt file and ensuring the compile process re-triggers automatically.",
+        "priority": "low",
+        "dependencies": [
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Develop Official Utilities for VS Code and Cursor",
+        "description": "Research the prompt formats for VS Code and Cursor and develop two official, pluggable Utilities. This will validate the Utility architecture and provide immediate value to users of these popular tools.",
+        "details": "As per the 'Risks and Mitigations' section, building two distinct utilities will help refine the core integration logic. This involves understanding how each tool stores its prompts (e.g., in a JSON file, specific directory structure) and writing the conversion logic.",
+        "testStrategy": "For each utility, create an end-to-end test: import a standard Markdown prompt, compile it using the new utility, deploy it to a mock project, and verify the output file format and location are correct for the target tool (VS Code/Cursor).",
+        "priority": "medium",
+        "dependencies": [
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Implement Advanced Utility Management, Testing, and Logging",
+        "description": "Flesh out the V3 features: implement `rex-cli utility enable|disable|set` commands, add a comprehensive test suite using Jest, and implement a logging system with different levels (`--log-level`).",
+        "details": "This task focuses on robustness and extensibility. Utility management commands make the system more configurable. Comprehensive testing ensures stability. Logging aids in debugging for both users and developers.",
+        "testStrategy": "Add unit and integration tests to cover all commands and edge cases, aiming for high code coverage. Test the `utility` subcommands to ensure they correctly modify the configuration. Test the logging output at different levels.",
+        "priority": "low",
+        "dependencies": [
+          6,
+          9
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-07-17T07:22:52.727Z",
+      "updated": "2025-07-17T09:13:10.226Z",
+      "description": "Tasks for master context"
+    }
+  }
+}
