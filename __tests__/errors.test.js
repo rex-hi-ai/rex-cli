@@ -4,7 +4,7 @@ const {
   NotFoundError, 
   FileSystemError,
   ErrorHandler 
-} = require('../errors');
+} = require('../src/errors');
 
 describe('錯誤類別測試', () => {
   describe('PermissionError', () => {

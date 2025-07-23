@@ -1,10 +1,10 @@
 const fs = require('fs-extra');
 const path = require('path');
-const ConfigurationManager = require('../ConfigurationManager');
-const DeploymentManager = require('../DeploymentManager');
+const ConfigurationManager = require('../src/ConfigurationManager');
+const DeploymentManager = require('../src/DeploymentManager');
 
 // Mock FileSystemManager
-jest.mock('../FileSystemManager', () => {
+jest.mock('../src/FileSystemManager', () => {
   const path = require('path');
   return {
     getGlobalRexDir: () => path.join(__dirname, 'fixtures', 'global', '.rex'),
@@ -15,7 +15,7 @@ jest.mock('../FileSystemManager', () => {
 });
 
 // Mock SmartDetectionManager to avoid external dependencies
-jest.mock('../SmartDetectionManager', () => {
+jest.mock('../src/SmartDetectionManager', () => {
   return jest.fn().mockImplementation(() => ({
     detectWithCache: jest.fn().mockResolvedValue({
       detectedUtilities: [{ name: 'github-copilot', confidence: 0.9 }]
@@ -27,7 +27,7 @@ jest.mock('../SmartDetectionManager', () => {
 });
 
 // Mock CacheManager
-jest.mock('../CacheManager', () => {
+jest.mock('../src/CacheManager', () => {
   return jest.fn().mockImplementation(() => ({
     loadCache: jest.fn().mockResolvedValue({ hashCache: {}, detectionCache: {} }),
     saveCache: jest.fn().mockResolvedValue()

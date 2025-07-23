@@ -1,8 +1,8 @@
 const fs = require('fs-extra');
 const path = require('path');
 const os = require('os');
-const CompilationManager = require('../CompilationManager');
-const FileSystemManager = require('../FileSystemManager');
+const CompilationManager = require('../src/CompilationManager');
+const FileSystemManager = require('../src/FileSystemManager');
 
 describe('CompilationManager', () => {
   let tempDir;

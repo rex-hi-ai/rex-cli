@@ -1,10 +1,10 @@
 const fs = require('fs-extra');
 const path = require('path');
-const PromptManager = require('../PromptManager');
-const { NotFoundError, PermissionError, ValidationError, FileSystemError } = require('../errors');
+const PromptManager = require('../src/PromptManager');
+const { NotFoundError, PermissionError, ValidationError, FileSystemError } = require('../src/errors');
 
 // Mock FileSystemManager 模組
-jest.mock('../FileSystemManager', () => ({
+jest.mock('../src/FileSystemManager', () => ({
   getGlobalRexDir: () => '/home/user/.rex'
 }));
 

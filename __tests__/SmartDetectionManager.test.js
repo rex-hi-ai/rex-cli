@@ -1,4 +1,4 @@
-const SmartDetectionManager = require('../SmartDetectionManager');
+const SmartDetectionManager = require('../src/SmartDetectionManager');
 const fs = require('fs-extra');
 const path = require('path');
 

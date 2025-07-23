@@ -1,4 +1,4 @@
-const CacheManager = require('../CacheManager');
+const CacheManager = require('../src/CacheManager');
 const fs = require('fs-extra');
 const path = require('path');
 const os = require('os');

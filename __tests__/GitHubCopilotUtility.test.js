@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const os = require('os');
-const GitHubCopilotUtility = require('../GitHubCopilotUtility');
+const GitHubCopilotUtility = require('../src/GitHubCopilotUtility');
 
 describe('GitHubCopilotUtility', () => {
   let utility;

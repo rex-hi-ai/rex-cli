@@ -1,4 +1,4 @@
-const CursorUtility = require('../CursorUtility');
+const CursorUtility = require('../src/CursorUtility');
 const fs = require('fs-extra');
 const path = require('path');
 const os = require('os');

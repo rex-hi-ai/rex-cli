@@ -1,9 +1,9 @@
-const ConfigurationManager = require('../ConfigurationManager');
+const ConfigurationManager = require('../src/ConfigurationManager');
 const fs = require('fs-extra');
 const path = require('path');
 
 // Mock FileSystemManager
-jest.mock('../FileSystemManager', () => ({
+jest.mock('../src/FileSystemManager', () => ({
   getGlobalRexDir: () => '/home/user/.rex',
   getProjectRexDir: () => '/project/.rex'
 }));

@@ -1,11 +1,11 @@
 const fs = require('fs-extra');
 const path = require('path');
 const os = require('os');
-const PromptMetadataParser = require('../PromptMetadataParser');
-const FileSystemManager = require('../FileSystemManager');
+const PromptMetadataParser = require('../src/PromptMetadataParser');
+const FileSystemManager = require('../src/FileSystemManager');
 
 // Mock FileSystemManager
-jest.mock('../FileSystemManager');
+jest.mock('../src/FileSystemManager');
 
 describe('PromptMetadataParser', () => {
   let parser;

@@ -167,9 +167,9 @@ For more detailed options for each command, use the `--help` flag. For example: 
 - **Format**: Cursor-specific prompt format
 - **Features**: Optimized for Cursor AI IDE integration
 
-## Project Structure
+## File Structure
 
-`rex-cli` organizes files in the following structure:
+`rex-cli` organizes user files in the following structure:
 
 ```
 ~/.rex/                     # Global rex-cli directory
@@ -190,18 +190,38 @@ For more detailed options for each command, use the `--help` flag. For example: 
     └── detection.json     # Smart detection cache
 ```
 
+## Project Structure
+
+The `rex-cli` project is organized with a clean separation of concerns:
+
+```
+rex-cli/
+├── src/                   # Source code
+│   ├── cli.js            # Main CLI entry point
+│   ├── *Manager.js       # Core management modules
+│   └── *Utility.js       # Utility implementations
+├── docs/                 # Documentation
+│   ├── CONFIGURATION.md
+│   ├── TESTING_REPORT.md
+│   └── *.md             # Other documentation files
+├── __tests__/           # Test suite
+├── README.md            # This file
+├── package.json         # Node.js configuration
+└── LICENSE              # MIT license
+```
+
 ## Architecture
 
 `rex-cli` is built with a modular architecture consisting of:
 
-- **CLI Application**: Main entry point using Commander.js
-- **File System Manager**: Handles all file system operations across platforms
-- **Configuration Manager**: Manages hierarchical configuration loading and merging
-- **Prompt Manager**: Manages the lifecycle of prompts in the global library
-- **Utility Runner**: Discovers and executes utility-specific compilation logic
-- **Deployment Manager**: Handles deployment of compiled prompts to projects
-- **Cache Manager**: Manages incremental builds and smart detection caching
-- **Smart Detection Manager**: Automatically detects project tools and suggests utilities
+- **CLI Application** (`src/cli.js`): Main entry point using Commander.js
+- **File System Manager** (`src/FileSystemManager.js`): Handles all file system operations across platforms
+- **Configuration Manager** (`src/ConfigurationManager.js`): Manages hierarchical configuration loading and merging
+- **Prompt Manager** (`src/PromptManager.js`): Manages the lifecycle of prompts in the global library
+- **Utility Runner** (`src/UtilityRunner.js`): Discovers and executes utility-specific compilation logic
+- **Deployment Manager** (`src/DeploymentManager.js`): Handles deployment of compiled prompts to projects
+- **Cache Manager** (`src/CacheManager.js`): Manages incremental builds and smart detection caching
+- **Smart Detection Manager** (`src/SmartDetectionManager.js`): Automatically detects project tools and suggests utilities
 
 ## Contributing
 

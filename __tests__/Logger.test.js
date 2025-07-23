@@ -1,4 +1,4 @@
-const { Logger, logger } = require('../Logger');
+const { Logger, logger } = require('../src/Logger');
 
 describe('Logger', () => {
   let mockConsoleLog;

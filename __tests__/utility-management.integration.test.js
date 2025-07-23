@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const os = require('os');
-const ConfigurationManager = require('../ConfigurationManager');
+const ConfigurationManager = require('../src/ConfigurationManager');
 
 describe('Utility Management Integration', () => {
   let tempDir;

@@ -1,14 +1,14 @@
-const DeploymentManager = require('../DeploymentManager');
+const DeploymentManager = require('../src/DeploymentManager');
 const fs = require('fs-extra');
 const path = require('path');
 const os = require('os');
 
 jest.mock('fs-extra');
 jest.mock('os');
-jest.mock('../ConfigurationManager');
-jest.mock('../SmartDetectionManager');
-jest.mock('../CacheManager');
-jest.mock('../PromptMetadataParser');
+jest.mock('../src/ConfigurationManager');
+jest.mock('../src/SmartDetectionManager');
+jest.mock('../src/CacheManager');
+jest.mock('../src/PromptMetadataParser');
 
 describe('DeploymentManager', () => {
   let deploymentManager;
@@ -313,7 +313,7 @@ describe('DeploymentManager', () => {
       };
       
       // Mock ConfigurationManager constructor
-      const ConfigurationManager = require('../ConfigurationManager');
+      const ConfigurationManager = require('../src/ConfigurationManager');
       ConfigurationManager.mockImplementation(() => mockConfigManager);
     });
 
@@ -363,8 +363,8 @@ describe('DeploymentManager', () => {
       };
       
       // Mock the required modules
-      const SmartDetectionManager = require('../SmartDetectionManager');
-      const CacheManager = require('../CacheManager');
+      const SmartDetectionManager = require('../src/SmartDetectionManager');
+      const CacheManager = require('../src/CacheManager');
       
       SmartDetectionManager.mockImplementation(() => mockSmartDetectionManager);
       CacheManager.mockImplementation(() => mockCacheManager);
@@ -471,7 +471,7 @@ describe('DeploymentManager', () => {
       };
       
       // Mock PromptMetadataParser constructor
-      const PromptMetadataParser = require('../PromptMetadataParser');
+      const PromptMetadataParser = require('../src/PromptMetadataParser');
       PromptMetadataParser.mockImplementation(() => mockMetadataParser);
     });
 
@@ -603,7 +603,7 @@ describe('DeploymentManager', () => {
       };
       
       // Mock PromptMetadataParser constructor
-      const PromptMetadataParser = require('../PromptMetadataParser');
+      const PromptMetadataParser = require('../src/PromptMetadataParser');
       PromptMetadataParser.mockImplementation(() => mockMetadataParser);
     });
 

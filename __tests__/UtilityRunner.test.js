@@ -1,10 +1,10 @@
-const UtilityRunner = require('../UtilityRunner');
-const GitHubCopilotUtility = require('../GitHubCopilotUtility');
-const CursorUtility = require('../CursorUtility');
+const UtilityRunner = require('../src/UtilityRunner');
+const GitHubCopilotUtility = require('../src/GitHubCopilotUtility');
+const CursorUtility = require('../src/CursorUtility');
 
 // Mock utilities
-jest.mock('../GitHubCopilotUtility');
-jest.mock('../CursorUtility');
+jest.mock('../src/GitHubCopilotUtility');
+jest.mock('../src/CursorUtility');
 
 describe('UtilityRunner 測試', () => {
   let utilityRunner;
@@ -129,7 +129,7 @@ describe('UtilityRunner 測試', () => {
   describe('Utility 基本類別', () => {
     it('應該在執行 execute 方法時拋出錯誤 (覆蓋 line 54)', async () => {
       // 直接實例化基础 Utility 類別
-      const UtilityClass = require('../UtilityRunner.js');
+      const UtilityClass = require('../src/UtilityRunner.js');
       
       // 在 Node.js 環境中，如果 Utility 是內部類別，需要通過 require 來取得
       // 我們需要直接建立一個實例來測試這個情況

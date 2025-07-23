@@ -1,8 +1,8 @@
 const fs = require('fs-extra');
 const os = require('os');
 const path = require('path');
-const FileSystemManager = require('../FileSystemManager');
-const { PermissionError } = require('../errors');
+const FileSystemManager = require('../src/FileSystemManager');
+const { PermissionError } = require('../src/errors');
 
 describe('FileSystemManager', () => {
   const testDir = path.join(__dirname, 'tmp');
