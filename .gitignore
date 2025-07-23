@@ -26,3 +26,9 @@ node_modules/
 
 # Jest coverage
 coverage/
+
+# Rex CLI cache
+.rex/cache/
+
+# GitHub Copilot cache
+.github/copilot/

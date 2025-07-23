@@ -10,8 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^4.1.2",
+    "chokidar": "^4.0.3",
     "commander": "^14.0.0",
-    "fs-extra": "^11.3.0"
+    "fs-extra": "^11.3.0",
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "jest": "^30.0.4",

@@ -13,7 +13,7 @@ rex-cli is a next-generation command-line interface (CLI) tool designed for Huma
 **How it works:** Users import their prompt files (e.g., Markdown files) into the global library using the rex-cli prompt import command. All other operations will reference the content in the library by the prompt's name.
 
 ## 2. Modular Prompt Utilities
-**Function:** A system of pluggable modules, called "Utilities" (e.g., windsurf, cursor), responsible for converting standard prompts from the library into the formats required by specific target tools (like VS Code, Cursor, etc.).
+**Function:** A system of pluggable modules, called "Utilities" (e.g., github-copilot, cursor), responsible for converting standard prompts from the library into the formats required by specific target tools (like GitHub Copilot, Cursor, etc.).
 
 **Importance:** Decouples the core prompt logic from the specific format of the target application. This makes the system highly extensible, allowing new tools to be supported simply by adding a new Utility.
 
@@ -36,7 +36,7 @@ rex-cli is a next-generation command-line interface (CLI) tool designed for Huma
 # User Experience
 
 ## User Personas
-**Alex, the AI Application Developer:** Alex works on multiple projects that use AI prompts for different tasks. He needs a way to reuse and version control his best prompts without copying and pasting. He uses tools like VS Code and Cursor and wants a seamless way to integrate prompts into his IDE.
+**Alex, the AI Application Developer:** Alex works on multiple projects that use AI prompts for different tasks. He needs a way to reuse and version control his best prompts without copying and pasting. He uses tools like GitHub Copilot and Cursor and wants a seamless way to integrate prompts into his IDE.
 
 ## Key User Flows
 
@@ -53,7 +53,7 @@ rex-cli is a next-generation command-line interface (CLI) tool designed for Huma
 ### Using Prompts (The "Developer" Flow):
 - Alex navigates to his project directory: cd /path/to/my-project.
 - He deploys the prompt: rex-cli deploy awesome-prompt.
-- rex-cli auto-detects that he is using VS Code and Cursor and copies the correctly formatted prompts into ./.vscode/ and other relevant directories. The prompt is now available in his IDE's prompt panel.
+- rex-cli auto-detects that he is using GitHub Copilot and Cursor and copies the correctly formatted prompts into ./.github/copilot/ and other relevant directories. The prompt is now available in his IDE's prompt panel.
 
 ## UI/UX Considerations
 - **CLI First:** The entire experience is centered around a clean, predictable command-line interface.
@@ -119,7 +119,7 @@ The goal of the MVP is to deliver the main user flow: getting a prompt from a fi
 - rex-cli prompt list: A simple command to see what's in the library.
 
 ### First Utility and Compilation:
-- Create a single, simple Utility (e.g., a "pass-through" Utility that just copies the file).
+- Create a single, practical Utility (e.g., a "GitHub Copilot" Utility that converts prompts into GitHub Copilot format).
 - rex-cli utility compile: Manually trigger the compilation of all prompts for that Utility, storing the results in ~/.rex/compiled/.
 
 ### Deployment:
@@ -137,10 +137,10 @@ The goal of the MVP is to deliver the main user flow: getting a prompt from a fi
 
 ### Developer Experience:
 - rex-cli utility compile --watch to provide real-time feedback during development.
-- rex-cli deploy --preview and --dry-run for safer deployments.
+- rex-cli deploy --dry-run for safer deployments.
 
 ### Additional Utilities:
-- Develop and integrate official Utilities for key tools like VS Code and Cursor.
+- Develop and integrate official Utilities for key tools like GitHub Copilot and Cursor.
 
 ## V3: Extensibility and Polish
 
@@ -162,7 +162,7 @@ The goal of the MVP is to deliver the main user flow: getting a prompt from a fi
 - **Add list command:** This provides necessary visibility into the system's state, making it usable without manually checking directories.
 - **Build out remaining prompt commands:** With the core workflow in place, flesh out the prompt management features (remove, rename, etc.) to improve usability.
 - **Layer on Automation:** Implement caching and smart detection. These are enhancements built on top of the existing, functional core.
-- **Finalize with DX/Safety features:** Add --watch, --preview, --force, etc. These are polishing features that make the tool more professional and safer to use.
+- **Finalize with DX/Safety features:** Add --watch, --dry-run, --force, etc. These are polishing features that make the tool more professional and safer to use.
 
 # Risks and Mitigations
 
@@ -179,7 +179,7 @@ The temptation to add "just one more feature" to the MVP is high, which could de
 ## Risk: Utility Integration is Difficult
 The design for how Utilities are defined and executed might be flawed, making it difficult to add new ones.
 
-**Mitigation:** Develop two distinct Utilities (e.g., for VS Code and Cursor) during the V2 phase. The process of building two will expose any flaws in the core integration logic, allowing for refinement before the design is locked in.
+**Mitigation:** Develop two distinct Utilities (e.g., for GitHub Copilot and Cursor) during the V2 phase. The process of building two will expose any flaws in the core integration logic, allowing for refinement before the design is locked in.
 
 ## Risk: Poor Performance on Large Libraries
 With thousands of prompts, compilation and deployment could become slow.
@@ -199,6 +199,8 @@ This section is a direct mapping of the CLI reference from the original document
 - `rex-cli prompt export <name> <output> [-f <format>]`
 - `rex-cli utility enable|disable|set|list <utility-name> [key] [value]`
 - `rex-cli utility compile [utility-name...] [-w, --watch] [--clean] [--all]`
-- `rex-cli deploy [prompt-name...] [--utility <utility-name>] [--output <path>] [--dry-run] [-f, --force] [--preview]`
+- `rex-cli deploy [prompt-name...] [--utility <utility-name>] [--output <path>] [--dry-run] [-f, --force]`
 - `rex-cli init [-f, --force]`
-- `rex-cli config [key] [value] [-g, --global] [--unset]`
+- `rex-cli config get [key] [-g, --global]`
+- `rex-cli config set <key> <value> [-g, --global]`
+- `rex-cli config delete <key> [-g, --global]`

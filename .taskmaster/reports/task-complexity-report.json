@@ -30,7 +30,7 @@
 			"taskTitle": "Develop Initial Utility and Compilation Logic",
 			"complexityScore": 7,
 			"recommendedSubtasks": 6,
-			"expansionPrompt": "Break down the task 'Develop Initial Utility and Compilation Logic' into actionable subtasks. These should cover defining the 'Utility' interface, creating a simple 'pass-through' utility, building the 'Utility Runner' component to execute utilities, implementing the `rex-cli utility compile` command, and writing tests to validate the entire compilation pipeline.",
+			"expansionPrompt": "Break down the task 'Develop Initial Utility and Compilation Logic' into actionable subtasks. These should cover defining the 'Utility' interface, creating the GitHub Copilot utility, building the 'Utility Runner' component to execute utilities, implementing the `rex-cli utility compile` command, and writing tests to validate the entire compilation pipeline.",
 			"reasoning": "This task is highly complex as it introduces a core architectural concept: the pluggable 'Utility' system. It requires defining an interface for utilities, creating a 'Utility Runner' to discover and execute them, implementing the `compile` command, and managing the compiled output directory structure. This is a multi-component feature central to the application's purpose."
 		},
 		{

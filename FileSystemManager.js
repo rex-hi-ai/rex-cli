@@ -12,10 +12,16 @@ class FileSystemManager {
     return path.resolve(process.cwd(), '.rex');
   }
 
+  static getProjectRexDir() {
+    return path.resolve(process.cwd(), '.rex');
+  }
+
   static async ensureRexDirs() {
     try {
       await fs.ensureDir(this.getGlobalRexDir());
       await fs.ensureDir(this.getLocalRexDir());
+      // Also ensure the prompts directory exists in global .rex
+      await fs.ensureDir(path.join(this.getGlobalRexDir(), 'prompts'));
     } catch (err) {
       if (err.code === 'EACCES') {
         throw new PermissionError(err.path, 'Cannot create .rex directory.');

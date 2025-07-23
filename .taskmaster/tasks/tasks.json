@@ -81,7 +81,7 @@
         "dependencies": [
           1
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -94,7 +94,7 @@
         "dependencies": [
           2
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -107,7 +107,7 @@
         "dependencies": [
           3
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -120,7 +120,7 @@
         "dependencies": [
           2
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -133,7 +133,7 @@
         "dependencies": [
           1
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -147,7 +147,7 @@
           4,
           6
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -161,7 +161,7 @@
           3,
           4
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -174,7 +174,7 @@
         "dependencies": [
           3
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -188,13 +188,110 @@
           6,
           9
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Implement Prompt Search Functionality",
+        "description": "Develop the `rex-cli prompt search` command to allow users to find prompts by name or content, supporting regular expressions and case-sensitive matching.",
+        "details": "Implement the `rex-cli prompt search` subcommand using Commander.js. This command should accept a `<query>` argument and support two optional flags: `--regex` (`-r`) to interpret the query as a regular expression, and `--case-sensitive` (`-c`) to perform case-sensitive matching. The function will access the global prompt library directory (`~/.rex/prompts/`) using the File System Manager. For each prompt file, its name and content will be read. The search logic will apply the specified query (as a string or regex) and case sensitivity to both the prompt's filename and its full content. Matching prompts will be collected and presented in a formatted output, clearly indicating the prompt name and potentially a snippet of the matching content.",
+        "testStrategy": "Create a comprehensive set of mock prompt files with diverse names and content for testing. Test `rex-cli prompt search <query>` with various string queries, verifying correct case-insensitive matching in both prompt names and content. Test `rex-cli prompt search <query> -c` to ensure accurate case-sensitive matching. Validate `rex-cli prompt search <query> -r` for correct regular expression interpretation and matching. Combine flags, e.g., `rex-cli prompt search <query> -r -c`, to test case-sensitive regex. Include tests for scenarios with no matches, single matches, and multiple matches. Verify that the output format is consistent, user-friendly, and accurately displays the names of matching prompts.",
+        "status": "done",
+        "dependencies": [
+          1,
+          2
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "Implement rex-cli config Command",
+        "description": "Develop the `rex-cli config` command to enable users to view, set, and delete configuration items at both global and project levels.",
+        "details": "This task involves creating the `rex-cli config` command with subcommands for managing configuration settings. It should support:\n- `rex-cli config get [key]`: To retrieve the value of a specific configuration key, or all configurations if no key is provided. This should respect the configuration hierarchy (project over global).\n- `rex-cli config set <key> <value>`: To set a configuration key-value pair. By default, this should modify the project-level configuration (`./.rex/config.json`).\n- `rex-cli config delete <key>`: To remove a configuration key. By default, this should remove from the project-level configuration.\n- A `--global` (`-g`) flag should be implemented for `set` and `delete` subcommands to target the global configuration file (`~/.rex/config.json`) instead of the project one.\n- The implementation will leverage the Configuration Manager developed in Task 6 for reading, writing, and merging configurations, and the File System Manager from Task 1 for file operations. Commander.js will be used for command-line parsing.",
+        "testStrategy": "Create comprehensive unit and integration tests for the `rex-cli config` command:\n- Test `rex-cli config get` for existing and non-existent keys at both project and global levels, verifying correct value retrieval and hierarchy application.\n- Test `rex-cli config set <key> <value>` for new and existing keys, ensuring values are correctly written to the respective `config.json` (project by default, global with `--global`). Verify data types are preserved where applicable.\n- Test `rex-cli config delete <key>` for existing and non-existent keys, ensuring keys are correctly removed from the respective `config.json`.\n- Test combinations of `set` and `get` to confirm persistence.\n- Test error handling for invalid inputs or file access issues.\n- Verify that the `config.json` files are correctly updated and malformed JSON is not produced.",
+        "status": "done",
+        "dependencies": [
+          1,
+          6
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Implement Tag/Category Filtering for Deploy and Configuration",
+        "description": "Enhance the `deploy` command with tag and category filtering capabilities, and extend the configuration system to support default tags/categories and filtering rules.",
+        "details": "This task involves a multi-faceted implementation to introduce tag and category support:\n\n1.  **CLI `deploy` command enhancements:**\n    *   Modify the `rex-cli deploy` command to accept new parameters: `--tags <tags...>`, `--category <category>`, and `--exclude-tags <tags...>`. These parameters should support multiple tags for `--tags` and `--exclude-tags`.\n    *   Update the `_resolveDeploymentOptions()` method to correctly parse and prioritize these new parameters, ensuring they can be combined with existing prompt name arguments.\n    *   Ensure that when `deploy` is run in `dry-run` mode, the output accurately reflects the set of prompts that would be deployed after applying all tag/category filters.\n\n2.  **Prompt Metadata Parsing (`PromptMetadataParser` module):**\n    *   Create a new, dedicated `PromptMetadataParser` module responsible for reading prompt files and extracting metadata from their YAML frontmatter.\n    *   It must support parsing `tags` (which can be an array of strings or a comma-separated string) and `category` (a single string).\n    *   Implement a caching mechanism within this module to store parsed metadata, improving performance by avoiding redundant file reads and parsing operations.\n\n3.  **Deployment Filtering Logic:**\n    *   Modify the `DeploymentManager.getCompiledFiles()` method to incorporate the new tag/category filtering logic.\n    *   This method should utilize the `PromptMetadataParser` to retrieve the `tags` and `category` for each prompt.\n    *   Apply the filtering rules based on the `--tags`, `--category`, and `--exclude-tags` parameters passed to the `deploy` command. The filtering should occur before the final list of compiled files is returned for deployment.\n\n4.  **Configuration System Extension:**\n    *   Extend the `ConfigurationManager` to support new configuration keys under the `deploy` namespace: `deploy.defaultTags` (an array of strings), `deploy.defaultCategory` (a string), and `deploy.filters` (a structure to define more complex filtering rules, if applicable, otherwise ensure the basic keys are supported).\n    *   Ensure these new configuration settings are correctly loaded, merged, and prioritized according to the existing configuration hierarchy (CLI flags > project settings > global settings).",
+        "testStrategy": "A comprehensive test strategy will cover unit-level parsing and integration-level command execution:\n\n1.  **Unit Tests for `PromptMetadataParser`:**\n    *   Create mock prompt files with various YAML frontmatter configurations:\n        *   `tags` as an array (e.g., `tags: [\"tag1\", \"tag2\"]`).\n        *   `tags` as a comma-separated string (e.g., `tags: \"tag1, tag2\"`).\n        *   `tags` missing or empty.\n        *   `category` present (e.g., `category: \"instructions\"`).\n        *   `category` missing or empty.\n        *   Malformed YAML frontmatter to test error handling.\n    *   Verify that the parser correctly extracts `tags` (normalized to an array) and `category`.\n    *   Test the caching mechanism by calling the parser multiple times for the same file and asserting that subsequent calls retrieve cached data.\n\n2.  **Integration Tests for `deploy` command with filtering:**\n    *   Set up a test environment with a diverse set of compiled prompt files, each having distinct tags and categories defined in their source prompt frontmatter.\n    *   Test `rex-cli deploy --tags tag1` to confirm only prompts containing 'tag1' are selected.\n    *   Test `rex-cli deploy --category instructions` to confirm only prompts belonging to 'instructions' category are selected.\n    *   Test `rex-cli deploy --exclude-tags experimental` to confirm prompts with 'experimental' tag are excluded.\n    *   Test combinations of parameters: `rex-cli deploy --tags tag1 tag2 --category instructions`, `rex-cli deploy --tags tag1 --exclude-tags tag2`.\n    *   Test combining filtering with specific prompt names: `rex-cli deploy my-prompt --tags tag1`.\n    *   Run all filtering tests with the `--dry-run` flag and assert that the output accurately lists the prompts that *would* be deployed, without actually modifying the file system.\n\n3.  **Integration Tests for Configuration System:**\n    *   Use `rex-cli config set` to set `deploy.defaultTags` and `deploy.defaultCategory` at both global and project levels.\n    *   Run `rex-cli deploy` without explicit tag/category flags and verify that the default configurations are correctly applied for filtering.\n    *   Test that explicit CLI flags (e.g., `--tags`) correctly override any default configurations set via `rex-cli config`.\n    *   Verify that `deploy.filters` (if implemented beyond basic default tags/category) behaves as expected according to its defined structure.",
+        "status": "done",
+        "dependencies": [
+          2,
+          3,
+          4,
+          6
+        ],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement CLI `deploy` Filtering Parameters",
+            "description": "Modify the `rex-cli deploy` command to accept new command-line parameters: `--tags <tags...>`, `--category <category>`, and `--exclude-tags <tags...>`. These parameters should support multiple tags for `--tags` and `--exclude-tags`.",
+            "dependencies": [],
+            "details": "Update the `_resolveDeploymentOptions()` method to correctly parse these new parameters from the command line.",
+            "status": "done",
+            "testStrategy": "Unit tests for `_resolveDeploymentOptions()` to ensure correct parsing of various combinations of tag/category parameters. Integration tests to verify `rex-cli deploy` accepts and processes these flags without errors."
+          },
+          {
+            "id": 2,
+            "title": "Develop Prompt Metadata Parser Module",
+            "description": "Create a new, dedicated `PromptMetadataParser` module responsible for reading prompt files and extracting metadata from their YAML frontmatter. It must support parsing `tags` (which can be an array of strings or a comma-separated string) and `category` (a single string).",
+            "dependencies": [],
+            "details": "Implement a caching mechanism within this module to store parsed metadata, improving performance by avoiding redundant file reads and parsing operations.",
+            "status": "done",
+            "testStrategy": "Unit tests for `PromptMetadataParser` with mock prompt files containing various YAML frontmatter configurations (e.g., `tags` as array, `tags` as comma-separated string, missing tags/category, invalid YAML). Test caching effectiveness and correctness."
+          },
+          {
+            "id": 3,
+            "title": "Implement Core Deployment Filtering Logic",
+            "description": "Modify the `DeploymentManager.getCompiledFiles()` method to incorporate the new tag/category filtering logic. This involves utilizing the `PromptMetadataParser` to retrieve the `tags` and `category` for each prompt and applying filtering rules based on the parameters passed to the `deploy` command.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "The filtering should occur before the final list of compiled files is returned for deployment, based on `--tags`, `--category`, and `--exclude-tags` parameters.",
+            "status": "done",
+            "testStrategy": "Unit tests for `DeploymentManager.getCompiledFiles()` with mock prompt metadata and various filter combinations to ensure correct inclusion/exclusion of prompts based on CLI parameters."
+          },
+          {
+            "id": 4,
+            "title": "Extend Configuration for Default Deploy Filters",
+            "description": "Extend the `ConfigurationManager` to support new configuration keys under the `deploy` namespace: `deploy.defaultTags` (an array of strings), `deploy.defaultCategory` (a string), and `deploy.filters` (a structure to define more complex filtering rules, if applicable).",
+            "dependencies": [],
+            "details": "Ensure these new configuration settings are correctly loaded, merged, and prioritized according to the existing configuration hierarchy (CLI flags > project settings > global settings). This subtask leverages the existing `ConfigurationManager` (Task 6).",
+            "status": "done",
+            "testStrategy": "Unit tests for `ConfigurationManager` to verify correct loading, merging, and prioritization of `deploy.defaultTags` and `deploy.defaultCategory` from global, project, and CLI sources."
+          },
+          {
+            "id": 5,
+            "title": "Integrate Filters and Validate Dry-Run Output",
+            "description": "Finalize the integration of CLI parameters and configuration defaults for tag/category filtering, ensuring correct prioritization. Validate that when `deploy` is run in `dry-run` mode, the output accurately reflects the set of prompts that would be deployed after applying all tag/category filters.",
+            "dependencies": [
+              1,
+              3,
+              4
+            ],
+            "details": "Ensure `_resolveDeploymentOptions()` correctly prioritizes CLI flags over configuration defaults for filtering. Update `dry-run` output generation to reflect the filtered prompt list accurately.",
+            "status": "done",
+            "testStrategy": "Integration tests for `rex-cli deploy` in `dry-run` mode with various combinations of CLI flags and configuration settings to verify the final list of prompts is accurate and correctly filtered according to all rules and priorities."
+          }
+        ]
       }
     ],
     "metadata": {
       "created": "2025-07-17T07:22:52.727Z",
-      "updated": "2025-07-17T09:13:10.226Z",
+      "updated": "2025-07-23T07:06:44.660Z",
       "description": "Tasks for master context"
     }
   }
